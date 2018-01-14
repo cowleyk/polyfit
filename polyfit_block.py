@@ -44,20 +44,32 @@ class Polyfit(Block):
                                          self.independent(signal))
 
             # calculate coefficient matrix
-            z = np.polyfit(self.x_array, self.y_array, self.degree())
+            polyfit = np.polyfit(
+                self.x_array, self.y_array, self.degree(), full=True)
+            z = polyfit[0]
+            residual = polyfit[1]
 
-            # calculate value p(x) for each x
+            # calculate value p(x) & stdev for each x
             p_x_array = []
+            resid_plus_array = []
+            resid_minus_array = []
             for dep in self.x_array:
                 p_x = self._evaluate_polynomial(z, dep)
                 p_x_array.append(p_x)
+                resid_plus = p_x + residual
+                resid_plus_array.append(resid_plus)
+                resid_minus = p_x - residual
+                resid_minus_array.append(resid_minus)
+
 
 
         self.notify_signals(
             [Signal({
                 'polynomial_value': p_x_array,
                 'independent_values': self.x_array.tolist(),
-                'dependent_values': self.y_array.tolist()
+                'dependent_values': self.y_array.tolist(),
+                'stdev_plus': resid_plus_array,
+                'stdev_minus': resid_minus_array
             })]
         )
 
