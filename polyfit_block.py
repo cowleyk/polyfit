@@ -57,7 +57,7 @@ class Polyfit(Block):
             [Signal({
                 '{}_degree_polynomial_value'.format(self.degree()): p_x_array,
                 'independent_values': self.x_array,
-                'length': len(self.x_array)
+                'dependent_values': self.y_array
             })]
         )
 
