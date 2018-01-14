@@ -34,9 +34,9 @@ class Polyfit(Block):
         for signal in signals:
             if len(self.x_array) < self.num_data_points():
                 self.x_array = np.append(self.x_array,
-                                         self.dependent(signal))
-                self.y_array = np.append(self.y_array,
                                          self.independent(signal))
+                self.y_array = np.append(self.y_array,
+                                         self.dependent(signal))
             else:
                 self.x_array = np.append(self.x_array[1:],
                                          self.dependent(signal))
@@ -56,7 +56,7 @@ class Polyfit(Block):
         self.notify_signals(
             [Signal({
                 '{}_degree_polynomial_value'.format(self.degree()): p_x_array,
-                'dependent_values': self.x_array,
+                'independent_values': self.x_array,
                 'length': len(self.x_array)
             })]
         )
